@@ -491,7 +491,7 @@ public protocol BetterSegmentedControlDelegate {
             frame.origin.x += panX
             frame.origin.x = max(min(frame.origin.x, bounds.width - indicatorViewInset - frame.width), indicatorViewInset)
             indicatorView.frame = frame
-            self.delegate?.segmentedControlDidDrag(value: panX)
+            self.delegate?.segmentedControlDidDrag(value: frame.origin.x)
         case .ended, .failed, .cancelled:
             setIndex(closestIndex(toPoint: indicatorView.center), shouldSendValueChangedEvent: true)
         default: break

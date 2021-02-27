@@ -494,6 +494,7 @@ public protocol BetterSegmentedControlDelegate {
             self.delegate?.segmentedControlDidDrag(value: frame.origin.x)
         case .ended, .failed, .cancelled:
             setIndex(closestIndex(toPoint: indicatorView.center), shouldSendValueChangedEvent: true)
+            self.delegate?.segmentedControlDidDrag(value: indicatorView.frame.origin.x)
         default: break
         }
     }

@@ -39,6 +39,8 @@ public protocol BetterSegmentedControlDelegate {
     /// The currently selected index indicator view.
     public let indicatorView = IndicatorView()
     
+    public var isTrackedWithScrollView: Bool = false
+    
     /// Whether the the control should always send the .valueChanged event, regardless of the index remaining unchanged after interaction. Defaults to `false`.
     @IBInspectable public var alwaysAnnouncesValue: Bool = false
     
@@ -369,17 +371,19 @@ public protocol BetterSegmentedControlDelegate {
         func moveIndicatorViewToIndex(animated: Bool, completion: @escaping () -> Void) {
             guard index >= 0 else { return }
             
-            UIView.animate(withDuration: animated ? animationDuration : 0.0,
-                           delay: 0.0,
-                           usingSpringWithDamping: animationSpringDamping,
-                           initialSpringVelocity: 0.0,
-                           options: [.beginFromCurrentState, .curveEaseOut],
-                           animations: { () -> Void in
-                            self.indicatorView.frame = self.normalSegmentViews[self.index].frame
-                            self.layoutIfNeeded()
-            }, completion: { finished -> Void in
-                completion()
-            })
+            if !isTrackedWithScrollView{
+                UIView.animate(withDuration: animated ? animationDuration : 0.0,
+                               delay: 0.0,
+                               usingSpringWithDamping: animationSpringDamping,
+                               initialSpringVelocity: 0.0,
+                               options: [.beginFromCurrentState, .curveEaseOut],
+                               animations: { () -> Void in
+                                self.indicatorView.frame = self.normalSegmentViews[self.index].frame
+                                self.layoutIfNeeded()
+                }, completion: { finished -> Void in
+                    completion()
+                })
+            }
         }
         
         if index == Self.noSegment {

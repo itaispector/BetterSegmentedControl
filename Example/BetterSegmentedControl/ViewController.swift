@@ -38,7 +38,7 @@ class ViewController: UIViewController, BetterSegmentedControlDelegate {
         navigationItem.titleView = navigationSegmentedControl
         
         // Control 1: Created and designed in IB
-        control1.segments = LabelSegment.segments(withTitles: ["Recent", "Nearby", "All"],
+        control1.segments = LabelSegment.segments(withTitles: ["Recent", "All"],
                                                   normalTextColor: UIColor(red: 0.48, green: 0.48, blue: 0.51, alpha: 1.00))
         control1.delegate = self
         

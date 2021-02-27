@@ -9,6 +9,10 @@
 
 import UIKit
 
+protocol BetterSegmentedControlDelegate {
+    func segmentedControlDidDrag(value: CGFloat)
+}
+
 @IBDesignable open class BetterSegmentedControl: UIControl {
     private struct Constants {
         static let minimumIntrinsicContentSizeHeight: CGFloat = 32.0
@@ -19,6 +23,7 @@ import UIKit
     
     // Public
     /// Indicates a no-segment-selected state.
+    var delegate : BetterSegmentedControlDelegate?
     public static let noSegment = -1
     
     /// The selected index. Use `setIndex()` for setting the index.
@@ -482,9 +487,11 @@ import UIKit
             initialIndicatorViewFrame = indicatorView.frame
         case .changed:
             var frame = initialIndicatorViewFrame!
-            frame.origin.x += gestureRecognizer.translation(in: self).x
+            let panX = gestureRecognizer.translation(in: self).x
+            frame.origin.x += panX
             frame.origin.x = max(min(frame.origin.x, bounds.width - indicatorViewInset - frame.width), indicatorViewInset)
             indicatorView.frame = frame
+            self.delegate?.segmentedControlDidDrag(value: panX)
         case .ended, .failed, .cancelled:
             setIndex(closestIndex(toPoint: indicatorView.center), shouldSendValueChangedEvent: true)
         default: break

@@ -9,7 +9,7 @@
 
 import UIKit
 
-protocol BetterSegmentedControlDelegate {
+public protocol BetterSegmentedControlDelegate {
     func segmentedControlDidDrag(value: CGFloat)
 }
 
@@ -23,7 +23,7 @@ protocol BetterSegmentedControlDelegate {
     
     // Public
     /// Indicates a no-segment-selected state.
-    var delegate : BetterSegmentedControlDelegate?
+    public var delegate : BetterSegmentedControlDelegate?
     public static let noSegment = -1
     
     /// The selected index. Use `setIndex()` for setting the index.

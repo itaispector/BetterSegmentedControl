@@ -11,6 +11,8 @@ import UIKit
 
 public protocol BetterSegmentedControlDelegate {
     func segmentedControlDidDrag(value: CGFloat)
+    func segmentedControlStartDrag()
+    func segmentedControlEndDrag()
 }
 
 @IBDesignable open class BetterSegmentedControl: UIControl {
@@ -489,6 +491,7 @@ public protocol BetterSegmentedControlDelegate {
         switch gestureRecognizer.state {
         case .began:
             initialIndicatorViewFrame = indicatorView.frame
+            self.delegate?.segmentedControlStartDrag()
         case .changed:
             var frame = initialIndicatorViewFrame!
             let panX = gestureRecognizer.translation(in: self).x
@@ -499,6 +502,7 @@ public protocol BetterSegmentedControlDelegate {
         case .ended, .failed, .cancelled:
             setIndex(closestIndex(toPoint: indicatorView.center), shouldSendValueChangedEvent: true)
             self.delegate?.segmentedControlDidDrag(value: indicatorView.frame.origin.x)
+            self.delegate?.segmentedControlEndDrag()
         default: break
         }
     }
